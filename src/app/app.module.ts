@@ -6,6 +6,7 @@ import { FormsModule }   from '@angular/forms';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AddPage} from '../pages/weight/add';
+import { EditPage} from '../pages/weight/edit';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,7 +18,8 @@ import {WeightService} from '../pages/weight/weight.service';
   declarations: [
     MyApp,
     HomePage,
-    AddPage
+    AddPage,
+    EditPage
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,8 @@ import {WeightService} from '../pages/weight/weight.service';
   entryComponents: [
     MyApp,
     HomePage,
-    AddPage
+    AddPage,
+    EditPage
   ],
   providers: [
     StatusBar,

@@ -1,16 +1,21 @@
 <ion-header>
   <ion-navbar color="dark">
-    <ion-title>Agregar entrada</ion-title>
+    <ion-title>Editar entrada</ion-title>
     <ion-buttons left>
       <button (click)="close()" ion-button icon-only>
         <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button (click)="delete()" ion-button icon-only>
+        <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="myForm" (submit)="addWeight()" novalidate>
+  <form [formGroup]="myForm" (submit)="update()" novalidate>
     <ion-list>
       <ion-item>
         <ion-label stacked>Peso (kg)</ion-label>

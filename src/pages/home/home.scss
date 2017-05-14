@@ -2,4 +2,16 @@ page-home {
 	.text-right {
 		text-align: right
 	}
+	.custom-border > .item {
+		border-bottom: 1px solid #bdbcbc;
+	}
+	.red {
+		color: #f53d3d
+	}
+	.green {
+		color: #32db64
+	}
+	.label-md {
+		padding-top: 4px;
+	}
 }

@@ -16,9 +16,7 @@ export class WeightService {
 			this.storage.get('weights').then((weights) => {
 				if(!weights) weights = [];
 
-				let date = moment(newWeight.date);
-				newWeight.date = date.format('YYYY-MM-DD');
-				newWeight.label = date.format('DD/MM');
+        newWeight.date = moment(newWeight.date).format('YYYY-MM-DD');
 
 				var index = this.isDateRepeated(weights, newWeight);
 
@@ -29,29 +27,47 @@ export class WeightService {
 					weights = this.sortWeights(weights);
 				}
 
+        weights = this.calculateVariation(weights);
+
 				return resolve(this.storage.set('weights', weights));
 			});
 		});
 	}
 
-  getTotalVariation(records) {
-    if(records.length < 2) {
-      return ' - ';
-    }
+  delete (weight) {
+    return new Promise((resolve, reject) => {
+      this.storage.get('weights').then((weights) => {
+        var index = this.isDateRepeated(weights, weight);
 
-    return (records[0].weight - records[records.length - 1].weight) * -1;
+        if(index == -1) return resolve();
+
+        weights.splice(index, 1);
+        weights = this.calculateVariation(weights);
+
+        return resolve(this.storage.set('weights', weights));
+      })
+    });
   }
 
-  getLastVariation(records) {
+  getTotalVariation(records) {
     if(records.length < 2) {
-      return ' - ';
+      return 0;
     }
 
-    return (records[records.length - 2].weight - records[records.length - 1].weight) * -1;
+    return (records[records.length - 1].weight - records[0].weight) * (-1);
   }
 
   getCurrentWeight(records) {
-    return records.length ? records[records.length - 1].weight : ' - ';
+    return records.length ? records[0].weight : 0;
+  }
+
+  private calculateVariation(weights) {
+    return weights.map((weight, index) => {
+      if(index == weights.length - 1) return weight;
+
+      weight.variation = (parseFloat(weights[index + 1].weight) - parseFloat(weight.weight)) * (-1);
+      return weight;
+    });
   }
 
 	private isDateRepeated(weights, weight) {
@@ -62,7 +78,7 @@ export class WeightService {
 
 	private sortWeights (weights) {
 		return weights.sort((a, b) => {
-			return moment(a.date, 'YYYY-MM-DD').isBefore(b.date) ? -1 : 1;
+			return moment(a.date, 'YYYY-MM-DD').isBefore(b.date) ? 1 : -1;
 		});
 	}
 }

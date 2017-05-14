@@ -8,35 +8,42 @@
 </ion-header>
 
 <ion-content padding class="custom-dark">
-  <ion-grid>
-    <ion-row>
-      <ion-col col-12 col-sm-4 col-md-4>
-        <ion-card>
-          <ion-card-content>
-            <ion-list>
-              <ion-item>
-                Peso actual: <div item-right> {{this.currentWeight}}{{unit}}</div>
-              </ion-item>
-              <ion-item>
-                Ultima variación: <div item-right> {{this.lastVariation}}{{unit}}</div>
-              </ion-item>
-              <ion-item>
-                Variación total: <div item-right> {{this.totalVariation}}{{unit}}</div>
-              </ion-item>
-            </ion-list>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col col-12 col-sm-8 col-md-8>
-        <ion-card [hidden]="this.records.length == 0">
-          <ion-card-content>
-            <canvas height="250" #lineCanvas></canvas>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+  <ion-card color="primary" *ngIf="records.length == 0">
+    <ion-card-content>
+     Aún no hay datos cargados...
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="records.length">
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          Peso actual: <div item-right> {{currentWeight | number: '1.1-1'}}{{unit}}</div>
+        </ion-item>
+        <ion-item>
+          Variación total:
+          <div item-right [ngClass]="{'red': totalVariation < 0, 'green': totalVariation > 0 }">
+            {{totalVariation > 0 ? '+' : ''}}{{totalVariation | number: '1.1-1'}}{{unit}}
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
-    </ion-row>
-  </ion-grid>
+  <ion-card *ngIf="records.length">
+    <ion-card-content >
+      <ion-list class="custom-border">
+        <ion-item *ngFor="let record of records" (click)="edit(record)">
+          <h3>{{record.date | date: 'dd/MM/yyyy'}}</h3>
+          <h1>{{record.weight | number: '1.1-1'}}{{unit}}</h1>
+          <div item-right [hidden]="record.variation == null">
+            <h2 [ngClass]="{'red': record.variation < 0, 'green': record.variation > 0 }">
+              {{record.variation > 0 ? '+' : ''}}{{record.variation | number: '1.1-1'}}{{unit}}
+            </h2>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
   <ion-fab right bottom>
     <button ion-fab color="secondary" (click)="add()"><ion-icon name="add"></ion-icon></button>
