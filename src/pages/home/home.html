@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Control de peso</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="custom-dark">
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm-4 col-md-4>
+        <ion-card>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                Peso actual: <div item-right> {{this.currentWeight}}{{unit}}</div>
+              </ion-item>
+              <ion-item>
+                Ultima variación: <div item-right> {{this.lastVariation}}{{unit}}</div>
+              </ion-item>
+              <ion-item>
+                Variación total: <div item-right> {{this.totalVariation}}{{unit}}</div>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col col-12 col-sm-8 col-md-8>
+        <ion-card [hidden]="this.records.length == 0">
+          <ion-card-content>
+            <canvas height="250" #lineCanvas></canvas>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="add()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

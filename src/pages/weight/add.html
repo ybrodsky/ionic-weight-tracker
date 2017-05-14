@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-title>Agregar entrada</ion-title>
+    <ion-buttons right>
+      <button (click)="close()" ion-button>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="myForm" (submit)="addWeight()" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>Peso</ion-label>
+        <ion-input formControlName="weight" type="number" [(ngModel)]="weight.weight" autofocus></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Fecha</ion-label>
+        <ion-datetime formControlName="date" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="weight.date"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <button ion-button full large [disabled]="myForm.invalid" color="seconday" type="submit">Guardar</button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
